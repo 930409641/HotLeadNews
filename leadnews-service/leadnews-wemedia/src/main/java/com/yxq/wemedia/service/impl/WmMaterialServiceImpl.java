@@ -9,9 +9,11 @@ import com.yxq.model.common.dtos.ResponseResult;
 import com.yxq.model.common.enums.AppHttpCodeEnum;
 import com.yxq.model.wemedia.dtos.WmMaterialDto;
 import com.yxq.model.wemedia.pojos.WmMaterial;
+import com.yxq.model.wemedia.pojos.WmNewsMaterial;
 import com.yxq.utils.common.WmThreadLocalUtil;
 import com.yxq.wemedia.mapper.WmMaterialMapper;
 import com.yxq.wemedia.service.WmMaterialService;
+import com.yxq.wemedia.service.WmNewsMaterialService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,6 +34,9 @@ public class WmMaterialServiceImpl extends ServiceImpl<WmMaterialMapper, WmMater
 
     @Resource
     private FileStorageService fileStorageService;
+
+    @Resource
+    private WmNewsMaterialService wmNewsMaterialService;
 
 
     @Override
@@ -80,5 +85,22 @@ public class WmMaterialServiceImpl extends ServiceImpl<WmMaterialMapper, WmMater
         ResponseResult result = new PageResponseResult(wmMaterialDto.getPage(),wmMaterialDto.getSize(),(int) page.getTotal());
         result.setData(page.getRecords());
         return result;
+    }
+
+    @Override
+    public ResponseResult delete(Integer id) {
+        if(id == null) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_REQUIRE);
+        }
+        LambdaQueryWrapper<WmNewsMaterial> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(WmNewsMaterial::getMaterialId,id);
+        int count = wmNewsMaterialService.count(wrapper);
+        if(count > 0) {
+            return ResponseResult.errorResult(AppHttpCodeEnum.DATA_EXIST_ASSOCIATION);
+        }
+        WmMaterial wmMaterial = baseMapper.selectById(id);
+        baseMapper.deleteById(id);
+        fileStorageService.delete(wmMaterial.getUrl());
+        return ResponseResult.okResult(200,"删除成功");
     }
 }

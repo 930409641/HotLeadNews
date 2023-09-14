@@ -24,19 +24,11 @@
 
     <dependencies>
         <!-- 引入依赖模块 -->
-<!--        <dependency>-->
-<!--            <groupId>com.yxq</groupId>-->
-<!--            <artifactId>heima-leadnews-model</artifactId>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>com.yxq</groupId>
             <artifactId>leadnews-model</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.yxq</groupId>-->
-<!--            <artifactId>heima-leadnews-common</artifactId>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>com.yxq</groupId>
             <artifactId>leadnews-common</artifactId>

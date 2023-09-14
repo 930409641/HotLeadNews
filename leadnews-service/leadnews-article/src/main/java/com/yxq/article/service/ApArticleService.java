@@ -1,6 +1,7 @@
 package com.yxq.article.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yxq.model.article.dtos.ArticleDto;
 import com.yxq.model.article.dtos.ArticleHomeDto;
 import com.yxq.model.article.pojos.ApArticle;
 import com.yxq.model.common.dtos.ResponseResult;
@@ -13,4 +14,6 @@ import com.yxq.model.common.dtos.ResponseResult;
 public interface ApArticleService extends IService<ApArticle> {
 
     ResponseResult load(ArticleHomeDto dto, Short type);
+
+    ResponseResult save(ArticleDto dto);
 }

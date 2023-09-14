@@ -31,4 +31,9 @@ public class WmMaterialController {
         return wmMaterialService.findList(wmMaterialDto);
     }
 
+    @GetMapping("del_picture/{id}")
+    public ResponseResult delete(@PathVariable("id") Integer id) {
+        return wmMaterialService.delete(id);
+    }
+
 }

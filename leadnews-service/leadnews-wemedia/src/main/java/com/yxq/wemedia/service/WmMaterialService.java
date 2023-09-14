@@ -17,4 +17,6 @@ public interface WmMaterialService extends IService<WmMaterial> {
     ResponseResult uploadPicture(MultipartFile multipartFile) throws IOException;
 
     ResponseResult findList(WmMaterialDto wmMaterialDto);
+
+    ResponseResult delete(Integer id);
 }
