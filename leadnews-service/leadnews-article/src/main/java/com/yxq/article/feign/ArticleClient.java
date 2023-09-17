@@ -1,4 +1,4 @@
-package com.yxq.article.fegin;
+package com.yxq.article.feign;
 
 import com.yxq.apis.article.IArticleClient;
 import com.yxq.article.service.ApArticleService;

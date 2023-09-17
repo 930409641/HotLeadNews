@@ -6,6 +6,7 @@ import com.yxq.article.mapper.ApArticleConfigMapper;
 import com.yxq.article.mapper.ApArticleContentMapper;
 import com.yxq.article.mapper.ApArticleMapper;
 import com.yxq.article.service.ApArticleService;
+import com.yxq.article.service.ArticleFreemarkerService;
 import com.yxq.model.article.dtos.ArticleDto;
 import com.yxq.model.article.dtos.ArticleHomeDto;
 import com.yxq.model.article.pojos.ApArticle;
@@ -15,7 +16,6 @@ import com.yxq.model.common.constants.ArticleConstants;
 import com.yxq.model.common.dtos.ResponseResult;
 import com.yxq.model.common.enums.AppHttpCodeEnum;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.net.nntp.Article;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +42,9 @@ public class ApArticleServiceImpl extends ServiceImpl<ApArticleMapper, ApArticle
 
     @Resource
     private ApArticleContentMapper apArticleContentMapper;
+
+    @Resource
+    private ArticleFreemarkerService articleFreemarkerService;
 
     @Override
     public ResponseResult load(ArticleHomeDto dto, Short type) {
@@ -103,6 +106,9 @@ public class ApArticleServiceImpl extends ServiceImpl<ApArticleMapper, ApArticle
                 apArticleContent.setContent(dto.getContent());
             apArticleContentMapper.insert(apArticleContent);
         }
+
+        //异步调用 生成静态文件上传到minio中
+        articleFreemarkerService.buildArticleToMinIO(article,dto.getContent());
 
         return ResponseResult.okResult(article.getId());
     }

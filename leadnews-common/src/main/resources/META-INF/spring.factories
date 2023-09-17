@@ -3,4 +3,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.yxq.common.swagger.SwaggerConfiguration,\
   com.yxq.common.swagger.Swagger2Configuration,\
   com.yxq.common.aliyun.GreenImageScan,\
-  com.yxq.common.aliyun.GreenTextScan
+  com.yxq.common.aliyun.GreenTextScan,\
+  com.yxq.common.redis.CacheService

@@ -20,8 +20,10 @@ import com.yxq.utils.common.WmThreadLocalUtil;
 import com.yxq.wemedia.mapper.WmMaterialMapper;
 import com.yxq.wemedia.mapper.WmNewsMapper;
 import com.yxq.wemedia.mapper.WmNewsMaterialMapper;
+import com.yxq.wemedia.service.WmNewsAutoScanService;
 import com.yxq.wemedia.service.WmNewsMaterialService;
 import com.yxq.wemedia.service.WmNewsService;
+import com.yxq.wemedia.service.WmNewsTaskService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -44,6 +46,12 @@ public class WmNewsServiceImpl extends ServiceImpl<WmNewsMapper, WmNews> impleme
 
     @Resource
     private WmNewsMaterialService wmNewsMaterialService;
+
+    @Resource
+    private WmNewsAutoScanService wmNewsAutoScanService;
+
+    @Resource
+    private WmNewsTaskService wmNewsTaskService;
 
     @Resource
     private WmNewsMaterialMapper wmNewsMaterialMapper;
@@ -86,7 +94,7 @@ public class WmNewsServiceImpl extends ServiceImpl<WmNewsMapper, WmNews> impleme
     }
 
     @Override
-    public ResponseResult submitNews(WmNewsDto dto) {
+    public ResponseResult submitNews(WmNewsDto dto) throws Exception {
 
         // 判断内容是否为空
         if(dto.getContent() == null) {
@@ -118,6 +126,10 @@ public class WmNewsServiceImpl extends ServiceImpl<WmNewsMapper, WmNews> impleme
 
         // 4.不是草稿，保存文章封面图片与素材的关系，如果当前布局是自动，需要匹配封面图片
         saveRelativeInfoForCover(dto,wmNews,materials);
+
+        //wmNewsAutoScanService.autoScanWmNews(wmNews.getId());
+        wmNewsTaskService.addNewsToTask(wmNews.getId(),wmNews.getPublishTime());
+
         return ResponseResult.okResult(AppHttpCodeEnum.SUCCESS);
     }
 

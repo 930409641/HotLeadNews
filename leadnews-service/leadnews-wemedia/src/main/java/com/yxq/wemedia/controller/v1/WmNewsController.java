@@ -29,7 +29,7 @@ public class WmNewsController {
     }
 
     @PostMapping("/submit")
-    public ResponseResult submitNews(@RequestBody WmNewsDto dto) {
+    public ResponseResult submitNews(@RequestBody WmNewsDto dto) throws Exception {
         return wmNewsService.submitNews(dto);
     }
 

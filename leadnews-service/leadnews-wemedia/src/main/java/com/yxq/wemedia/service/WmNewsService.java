@@ -14,5 +14,5 @@ import com.yxq.model.wemedia.pojos.WmNews;
 public interface WmNewsService extends IService<WmNews> {
     ResponseResult findAll(WmNewsPageReqDto wmNewsPageReqDto);
 
-    ResponseResult submitNews(WmNewsDto dto);
+    ResponseResult submitNews(WmNewsDto dto) throws Exception;
 }
